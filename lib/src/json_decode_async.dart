@@ -15,16 +15,19 @@ _decodeJson(SendPort sendPort) async {
 
 SendPort _jsonDecoderSendPort;
 
-Future<T> _jsonDecodeAsyncOnPort<T>(SendPort send, message) {
+Future<dynamic> _jsonDecodeAsyncOnPort(SendPort send, message) {
   final ReceivePort receivePort = ReceivePort();
   send.send([message, receivePort.sendPort]);
-  return receivePort.first.then<T>((value) => value);
+  return receivePort.first;
 }
 
 bool _decodeNotifiedAboutSpawnError = false;
 Semaphore _decodeSemaphore = LocalSemaphore(1);
 
-Future<T> jsonDecodeAsync<T>(String json) async {
+/// Decodes a [json] string using Darts standard `jsonDecode` method.
+/// Whenever the platform supports it, the call will be executed in a
+/// long-running isolate.
+Future<dynamic> jsonDecodeAsync(String json) async {
   if (_jsonDecoderSendPort == null) {
     await _decodeSemaphore.acquire();
     if (_jsonDecoderSendPort != null) {
@@ -52,4 +55,29 @@ Future<T> jsonDecodeAsync<T>(String json) async {
   }
 
   return _jsonDecodeAsyncOnPort(_jsonDecoderSendPort, json);
+}
+
+/// Helper method that uses `jsonDecodeAsync` to decode the passed [json] string
+/// into a typed `List`.
+Future<List<T>> jsonDecodeAsyncList<T>(String json) async {
+  return jsonDecodeAsync(json).then((value) {
+    if (value is List) {
+      return List<T>.from(value);
+    }
+
+    throw TypeError();
+  });
+}
+
+/// Helper method that uses `jsonDecodeAsync` to decode the passed [json] string
+/// into a typed `Map`. Because JSON dictionaries can only contain string keys,
+/// the returned Map type is `String,T`.
+Future<Map<String, T>> jsonDecodeAsyncMap<T>(String json) async {
+  return jsonDecodeAsync(json).then((value) {
+    if (value is Map) {
+      return Map<String, T>.from(value);
+    }
+
+    throw TypeError();
+  });
 }
