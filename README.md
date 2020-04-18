@@ -1,14 +1,17 @@
 # json_async
 
-A new Flutter package project.
+Runs JSON encoding/decoding in a separate, long-running, isolate.
 
-## Getting Started
+This is helpful when working with JSON frequently and the spawning/destruction or a new isolate (e.g. when used in via [compute](https://api.flutter.dev/flutter/foundation/compute.html)) creates too much overhead.
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+## Example
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+``` dart
+final String str = await jsonDecodeAsync('"ABC"');
+
+final Map<String, int> map = await jsonDecodeAsyncMap<int>('{"0":1}');
+
+final List<String> list = await jsonDecodeAsyncList<String>('["A","B"]');
+```
+
+All 3 calls will be run in _sequentially_ a shared background isolate.
