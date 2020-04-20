@@ -14,4 +14,6 @@ final Map<String, int> map = await jsonDecodeAsyncMap<int>('{"0":1}');
 final List<String> list = await jsonDecodeAsyncList<String>('["A","B"]');
 ```
 
-All 3 calls will be run in _sequentially_ a shared background isolate.
+All 3 calls will be run in a shared background isolate.
+
+Errors will be forwarded to the caller.
