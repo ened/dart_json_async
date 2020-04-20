@@ -1,5 +1,7 @@
 # json_async
 
+[![pub package](https://img.shields.io/pub/v/json_async.svg?label=json_async&color=blue)](https://pub.dartlang.org/packages/json_async)
+
 Runs JSON encoding/decoding in a separate, long-running, isolate.
 
 This is helpful when working with JSON frequently and the spawning/destruction or a new isolate (e.g. when used in via [compute](https://api.flutter.dev/flutter/foundation/compute.html)) creates too much overhead.
