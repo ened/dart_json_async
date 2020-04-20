@@ -1,3 +1,7 @@
+## 0.1.1
+
+* Adds license.
+
 ## 0.1.0
 
 * Error handling & recovery for invalid JSON decoding/encoding.
