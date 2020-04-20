@@ -24,10 +24,10 @@ Future<dynamic> _jsonDecodeAsyncOnPort(SendPort send, message) {
   final ReceivePort receivePort = ReceivePort();
   send.send([message, receivePort.sendPort]);
   return receivePort.first.then((v) {
-if(v is Exception) {
-  throw v;
-}
-return v;
+    if (v is Exception) {
+      throw v;
+    }
+    return v;
   });
 }
 
