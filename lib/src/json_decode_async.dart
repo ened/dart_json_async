@@ -7,9 +7,14 @@ _decodeJson(SendPort sendPort) async {
   sendPort.send(receivePort.sendPort);
 
   receivePort.listen((msg) {
-    final decoded = jsonDecode(msg[0]);
     final SendPort replyPort = msg[1];
-    replyPort.send(decoded);
+
+    try {
+      final decoded = jsonDecode(msg[0]);
+      replyPort.send(decoded);
+    } catch (e) {
+      replyPort.send(e);
+    }
   });
 }
 
@@ -18,7 +23,12 @@ SendPort _jsonDecoderSendPort;
 Future<dynamic> _jsonDecodeAsyncOnPort(SendPort send, message) {
   final ReceivePort receivePort = ReceivePort();
   send.send([message, receivePort.sendPort]);
-  return receivePort.first;
+  return receivePort.first.then((v) {
+if(v is Exception) {
+  throw v;
+}
+return v;
+  });
 }
 
 bool _decodeNotifiedAboutSpawnError = false;

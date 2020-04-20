@@ -6,6 +6,26 @@ void main() {
     test('string', () async => expect(await jsonDecodeAsync('"ABC"'), 'ABC'));
     test('int', () async => expect(await jsonDecodeAsync('5'), 5));
     test('double', () async => expect(await jsonDecodeAsync('12.2'), 12.2));
+
+    test('forwards & recovers from error', () async {
+      try {
+        await jsonDecodeAsync('{]');
+        fail('should fail with an error');
+      } on FormatException catch (e) {
+        expect(e.message, 'Unexpected character');
+      }
+
+      expect(await jsonDecodeAsync('"ABC"'), 'ABC');
+
+      try {
+        await jsonDecodeAsync('][');
+        fail('should fail with an error');
+      } on FormatException catch (e) {
+        expect(e.message, 'Unexpected character');
+      }
+
+      expect(await jsonDecodeAsync('"123"'), '123');
+    });
   });
 
   group('jsonDecodeAsyncList', () {
