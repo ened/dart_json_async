@@ -1,3 +1,7 @@
+## 0.1.0
+
+* Error handling & recovery for invalid JSON decoding/encoding.
+
 ## 0.0.3
 
 * Adds decoding tests.
