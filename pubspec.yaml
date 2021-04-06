@@ -1,13 +1,13 @@
 name: json_async
 description: Decode/Encode JSON asynchronously, in a long-running Isolate.
-version: 0.1.1
+version: 0.2.0
 homepage: https://github.com/ened/dart_json_async
 
 environment:
-  sdk: ">=2.3.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
-  semaphore: ^0.1.1
+  semaphore: ^0.1.4
 
 dev_dependencies:
   test: ^1.6.1
