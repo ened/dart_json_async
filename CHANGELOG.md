@@ -1,3 +1,7 @@
+## 0.2.1 
+
+* Depend on official semaphore update
+
 ## 0.2.0
 
 * Nullsafe version
