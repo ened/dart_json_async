@@ -1,3 +1,12 @@
+## 0.2.1 
+
+* Depend on official semaphore update
+
+## 0.2.0
+
+* Nullsafe version
+* Depend on a `semaphore` branch with nullsafety support
+
 ## 0.1.1
 
 * Adds license.

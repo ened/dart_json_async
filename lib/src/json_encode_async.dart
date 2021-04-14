@@ -21,7 +21,7 @@ _encodeJson(SendPort sendPort) async {
   });
 }
 
-SendPort _jsonEncoderSendPort;
+SendPort? _jsonEncoderSendPort;
 
 Future<String> _jsonEncodeAsyncOnPort(SendPort send, message) {
   final ReceivePort receivePort = ReceivePort();
@@ -67,5 +67,5 @@ Future<String> jsonEncodeAsync(dynamic json) async {
     }
   }
 
-  return _jsonEncodeAsyncOnPort(_jsonEncoderSendPort, json);
+  return _jsonEncodeAsyncOnPort(_jsonEncoderSendPort!, json);
 }

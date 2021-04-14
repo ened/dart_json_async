@@ -18,7 +18,7 @@ _decodeJson(SendPort sendPort) async {
   });
 }
 
-SendPort _jsonDecoderSendPort;
+SendPort? _jsonDecoderSendPort;
 
 Future<dynamic> _jsonDecodeAsyncOnPort(SendPort send, message) {
   final ReceivePort receivePort = ReceivePort();
@@ -64,7 +64,7 @@ Future<dynamic> jsonDecodeAsync(String json) async {
     }
   }
 
-  return _jsonDecodeAsyncOnPort(_jsonDecoderSendPort, json);
+  return _jsonDecodeAsyncOnPort(_jsonDecoderSendPort!, json);
 }
 
 /// Helper method that uses `jsonDecodeAsync` to decode the passed [json] string
